@@ -8,9 +8,9 @@ const contactRegex = /^\(\d{2}\) \d \d{4}-\d{4}$/
 const zipCodeRegex = /^\d{5}-\d{3}$/
 
 const schema = z.object({
-  name: z.string().min(3).max(255),
+  name: z.string().min(3).max(100),
   role: z.nativeEnum(Role).default('user').optional(),
-  email: z.string().email().max(255),
+  email: z.string().email().max(254),
   password: z.string().min(3).max(64),
   passwordConfirmation: z.string(),
 
