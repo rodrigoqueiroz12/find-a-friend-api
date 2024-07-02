@@ -56,7 +56,7 @@ app.setErrorHandler(async (error, req, rep) => {
     console.error({ error, message: error.message})
   }
 
-  return rep.status(500).send({ message: error.message })
+  return rep.status(error.statusCode || 500).send({ message: error.message })
 })
 
 app.register(async (fastify) => {
