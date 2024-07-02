@@ -17,10 +17,10 @@ const schema = z.object({
   contact: z.string().regex(contactRegex, 'Contact must be in the format (00) 0 0000-0000'),
 
   zipCode: z.string().regex(zipCodeRegex, 'Zip code must be in the format 00000-000'),
-  street: z.string(),
-  number: z.string(),
-  neighborhood: z.string(),
-  city: z.string(),
+  street: z.string().max(100),
+  number: z.string().max(25),
+  neighborhood: z.string().max(50),
+  city: z.string().max(50),
   state: z.enum(validStates, {
     message: 'State must be one of the valid two-letter codes'
   })
