@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  role      Role     @default(user)
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(254)
+  contact   String   @db.VarChar(15)
+  password  String   @db.VarChar(64)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(0)
+  address   Address?
+  pet       Pet[]
+
+  @@map("users")
+}
+
+model Address {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int      @unique @map("user_id")
+  zipCode      String   @map("zip_code") @db.VarChar(20)
+  street       String   @db.VarChar(100)
+  number       String   @db.VarChar(25)
+  neighborhood String   @db.VarChar(50)
+  city         String   @db.VarChar(50)
+  state        UF
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@map("addresses")
+}
+
+model Pet {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       Int      @map("user_id")
+  name         String   @db.VarChar(100)
+  about        String   @db.VarChar(300)
+  age          String   @db.VarChar(25)
+  energy       String   @db.VarChar(25)
+  ambient      String   @db.VarChar(25)
+  size         String   @db.VarChar(25)
+  independency String   @db.VarChar(25)
+  requirements Json     @db.Json
+  slug         String   @unique @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  petPicture PetPicture[]
+
+  @@map("pets")
+}
+
+model PetPicture {
+  id        Int      @id @default(autoincrement())
+  pet       Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+  petId     Int      @map("pet_id")
+  picture   String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(0)
+
+  @@map("pet_pictures")
+}
+
+enum Role {
+  admin
+  user
+}
+
+enum UF {
+  AC
+  AL
+  AP
+  AM
+  BA
+  CE
+  DF
+  ES
+  GO
+  MA
+  MT
+  MS
+  MG
+  PA
+  PB
+  PR
+  PE
+  PI
+  RJ
+  RN
+  RS
+  RO
+  RR
+  SC
+  SP
+  SE
+  TO
+}
