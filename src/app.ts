@@ -48,7 +48,7 @@ app.setErrorHandler(async (error, req, rep) => {
       'Content-Type': 'application/json'
     }).send({
       message: 'Validation error',
-      errors: error.format()
+      ...error.format()
     })
   }
 
