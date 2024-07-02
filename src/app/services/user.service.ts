@@ -3,7 +3,7 @@ import { hash } from 'bcrypt'
 
 import { prisma } from '@/lib/prisma-client'
 
-import { StoreUserRequestType } from '../http/requests/store-user.request'
+import { StoreUserRequestBody } from '../http/requests/store-user.request'
 
 export class UserService {
   public static async findById(id: number): Promise<User | null> {
@@ -26,7 +26,7 @@ export class UserService {
     return user
   }
   
-  public static async store(data: StoreUserRequestType) {
+  public static async store(data: StoreUserRequestBody) {
     return await prisma.$transaction(async (prisma) => {
       const createdUser: Prisma.UserCreateInput = await prisma.user.create({
         data: {

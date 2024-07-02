@@ -9,7 +9,7 @@ import { SignInRequestBody } from '../requests/sign-in.request'
 export async function signIn(req: FastifyRequest, rep: FastifyReply) {
   const { email, password } = req.body as SignInRequestBody
 
-  if (!AuthService.attempt({ email, password })) {
+  if (! await AuthService.attempt({ email, password })) {
     return rep.status(400).send({
       message: 'Invalid credentials.'
     })

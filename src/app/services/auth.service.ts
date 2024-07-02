@@ -10,11 +10,7 @@ interface AttemptParams {
 export class AuthService {
   public static async attempt({ email, password }: AttemptParams) {
     const user = await UserService.findByEmail(email)
-
-    if (!user || !compare(password, user.password)) {
-      return false
-    }
-
-    return true
+    
+    return user && await compare(password, user.password)
   }
 }
